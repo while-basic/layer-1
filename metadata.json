@@ -1,0 +1,7 @@
+{
+  "name": "Christopher Celaya Portal",
+  "description": "A living, AI-powered conversational interface to Christopher Celaya's intellectual ecosystem, projects, and systems thinking.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

@@ -22,14 +22,13 @@ const Auth: React.FC<AuthProps> = ({ onIdentity, currentIdentity, onLogout }) =>
 
   if (currentIdentity) {
     return (
-      <div className="flex items-center space-x-6">
-        <span className="text-white text-[10px] tracking-[0.2em] uppercase font-medium opacity-80">
+      <div className="flex items-center space-x-3 mt-1">
+        <span className="text-white/60 text-[9px] tracking-[0.3em] uppercase font-bold">
           Identity established: {currentIdentity}
         </span>
-        {/* Fix: use onLogout prop instead of undefined handleLogout */}
         <button 
           onClick={onLogout}
-          className="text-white/40 hover:text-white text-[9px] tracking-[0.3em] uppercase transition-all duration-300 font-bold"
+          className="text-white/20 hover:text-white/50 text-[9px] tracking-[0.3em] uppercase transition-all duration-300 font-bold"
         >
           [ Release ]
         </button>
@@ -38,11 +37,11 @@ const Auth: React.FC<AuthProps> = ({ onIdentity, currentIdentity, onLogout }) =>
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center mt-1">
       {!isExpanding ? (
         <button 
           onClick={() => setIsExpanding(true)}
-          className="text-white hover:text-white/80 text-[10px] tracking-[0.2em] uppercase transition-all duration-300 font-medium border-b border-white/20 pb-0.5"
+          className="text-white/40 hover:text-white text-[9px] tracking-[0.3em] uppercase transition-all duration-300 font-bold border-b border-white/5 pb-0.5"
         >
           Connect Identity
         </button>
@@ -54,13 +53,13 @@ const Auth: React.FC<AuthProps> = ({ onIdentity, currentIdentity, onLogout }) =>
             placeholder="WHO ARE YOU?..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className="bg-transparent border-none text-[10px] tracking-[0.2em] uppercase text-white placeholder-white/20 focus:ring-0 w-40 p-0 font-medium"
+            className="bg-transparent border-none text-[9px] tracking-[0.3em] uppercase text-white placeholder-white/10 focus:ring-0 w-32 p-0 font-bold"
           />
           <button type="submit" className="hidden">Submit</button>
           <button 
             type="button"
             onClick={() => setIsExpanding(false)}
-            className="ml-4 text-white/30 hover:text-white text-[10px]"
+            className="ml-4 text-white/10 hover:text-white text-[9px] font-bold"
           >
             ESC
           </button>

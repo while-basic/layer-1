@@ -34,15 +34,17 @@ const App: React.FC = () => {
         <LaunchScreen onStart={() => setShowLaunch(false)} />
       ) : (
         <div className="h-full relative flex flex-col overflow-hidden">
-          {/* Identity Anchor - Semi-Static Overlay */}
-          <header className="fixed top-0 left-0 right-0 pt-[8vh] flex flex-col items-center pointer-events-none z-10 bg-gradient-to-b from-[#0A0A0A] via-[#0A0A0A]/80 to-transparent pb-12">
-            <h1 className="text-2xl md:text-3xl font-medium tracking-tighter text-white/90 animate-in fade-in duration-2000">
+          {/* Identity Anchor - Stacked and Centered as per screenshot */}
+          <header className="fixed top-0 left-0 right-0 pt-10 flex flex-col items-center pointer-events-none z-30 bg-gradient-to-b from-[#0A0A0A] via-[#0A0A0A]/90 to-transparent pb-16">
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tighter text-white/95 animate-in fade-in duration-1000 mb-1">
               Christopher Celaya
             </h1>
-            <div className="mt-3 flex flex-col items-center space-y-3 pointer-events-auto">
-              <div className="flex items-center space-x-2 text-white/30 text-[10px] font-medium tracking-widest pulse uppercase">
+            
+            <div className="flex flex-col items-center space-y-1 pointer-events-auto">
+              <div className="flex items-center space-x-2 text-white/20 text-[9px] font-bold tracking-[0.4em] uppercase">
                 <p>CLOS: Cognitive Life Operating System</p>
               </div>
+              
               <Auth 
                 currentIdentity={userPresence} 
                 onIdentity={handleIdentity} 
@@ -51,9 +53,9 @@ const App: React.FC = () => {
             </div>
           </header>
 
-          {/* Core Content Layer - Constrained Height */}
+          {/* Core Content Layer */}
           <main className="flex-1 min-h-0 relative z-0">
-            <ChatInterface userId={userPresence} />
+            <ChatInterface userId={userPresence} onConnectIdentity={handleIdentity} />
           </main>
 
           {/* Minimalist Portal Status */}

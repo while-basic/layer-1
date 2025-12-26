@@ -6,29 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Christopher Celaya Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #0A0A0A;
+            background-color: #050505;
+            overflow: hidden;
         }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: #FFFFFF;
-            overflow: hidden;
             -webkit-tap-highlight-color: transparent;
         }
         #root {
             height: 100%;
-        }
-        .pulse {
-            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.85; }
-            50% { opacity: 0.5; }
         }
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -38,7 +31,20 @@
             scrollbar-width: none;
         }
         ::selection {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* High-end transitions */
+        .thought-fade-in {
+            animation: thoughtFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes thoughtFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .soft-glow {
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.02);
         }
     </style>
 <script type="importmap">

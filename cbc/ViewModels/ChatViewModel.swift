@@ -1,9 +1,13 @@
-//
-//  ChatViewModel.swift
-//  cbc
-//
-//  Created by Christopher Celaya on 12/25/25.
-//
+//----------------------------------------------------------------------------
+//File:       ChatViewModel.swift
+//Project:     cbc
+//Created by:  Celaya Solutions, 2025
+//Author:      Christopher Celaya <chris@chriscelaya.com>
+//Description: Chat view model with optimized message handling
+//Version:     1.0.0
+//License:     MIT
+//Last Update: November 2025
+//----------------------------------------------------------------------------
 
 import Foundation
 import SwiftUI
@@ -49,32 +53,48 @@ class ChatViewModel: ObservableObject {
         isLoading = false
     }
 
-    private func parseProjectTags(from response: String) -> (String, [Project]) {
-        var cleanedResponse = response
-        var foundProjects: [Project] = []
-
+    // Cache regex to avoid recompiling on every call
+    private static let projectTagRegex: NSRegularExpression? = {
         let pattern = "\\[PROJECT:([^\\]]+)\\]"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else {
+        return try? NSRegularExpression(pattern: pattern)
+    }()
+    
+    private func parseProjectTags(from response: String) -> (String, [Project]) {
+        guard let regex = ChatViewModel.projectTagRegex else {
             return (response, [])
         }
+        
+        var cleanedResponse = response
+        var foundProjects: [Project] = []
+        
+        // Use NSString for better performance with NSRange
+        let nsString = response as NSString
+        let matches = regex.matches(in: response, range: NSRange(location: 0, length: nsString.length))
 
-        let matches = regex.matches(in: response, range: NSRange(response.startIndex..., in: response))
-
-        for match in matches.reversed() {
-            guard let range = Range(match.range, in: response),
-                  let projectNameRange = Range(match.range(at: 1), in: response) else {
-                continue
-            }
-
-            let projectName = String(response[projectNameRange])
+        // Collect all ranges first, then process in reverse
+        var rangesToRemove: [NSRange] = []
+        
+        for match in matches {
+            guard match.numberOfRanges > 1 else { continue }
+            
+            let projectNameRange = match.range(at: 1)
+            let projectName = nsString.substring(with: projectNameRange)
 
             // Find project in knowledge base
-            if let project = KnowledgeBase.shared.activeProjects.first(where: { $0.name.lowercased() == projectName.lowercased() }) {
-                foundProjects.insert(project, at: 0)
+            if let project = KnowledgeBase.shared.activeProjects.first(where: { 
+                $0.name.lowercased() == projectName.lowercased() 
+            }) {
+                foundProjects.append(project)
             }
+            
+            rangesToRemove.append(match.range)
+        }
 
-            // Remove the tag from the response
-            cleanedResponse = cleanedResponse.replacingCharacters(in: range, with: "")
+        // Remove tags in reverse order to maintain indices
+        for range in rangesToRemove.reversed() {
+            if let swiftRange = Range(range, in: cleanedResponse) {
+                cleanedResponse.removeSubrange(swiftRange)
+            }
         }
 
         return (cleanedResponse.trimmingCharacters(in: .whitespacesAndNewlines), foundProjects)

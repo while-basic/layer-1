@@ -75,11 +75,19 @@ struct KnowledgeBase: Codable {
         )
     )
 
+    // Cache the JSON string to avoid regenerating on every API call
+    private static var _cachedJSONString: String?
+    
     var jsonString: String {
+        if let cached = KnowledgeBase._cachedJSONString {
+            return cached
+        }
+        
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         if let data = try? encoder.encode(self),
            let string = String(data: data, encoding: .utf8) {
+            KnowledgeBase._cachedJSONString = string
             return string
         }
         return "{}"

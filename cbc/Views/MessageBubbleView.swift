@@ -23,7 +23,7 @@ struct MessageBubbleView: View {
 
             // Project cards if any
             if let projects = message.projectCards, !projects.isEmpty {
-                VStack(spacing: 16) {
+                LazyVStack(spacing: 16) {
                     ForEach(projects) { project in
                         ProjectCardView(project: project)
                     }
@@ -33,6 +33,7 @@ struct MessageBubbleView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
+        .drawingGroup() // Optimize rendering for complex views
     }
 }
 

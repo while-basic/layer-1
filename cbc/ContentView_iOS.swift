@@ -30,7 +30,7 @@ struct ContentView_iOS: View {
                 // Messages
                 ScrollViewReader { proxy in
                     ScrollView {
-                        VStack(spacing: 0) {
+                        LazyVStack(spacing: 0) {
                             // Messages
                             ForEach(viewModel.messages) { message in
                                 MessageBubbleView(message: message)
@@ -56,9 +56,14 @@ struct ContentView_iOS: View {
                     .onAppear {
                         scrollProxy = proxy
                     }
-                    .onChange(of: viewModel.messages.count) { _, _ in
-                        withAnimation {
-                            proxy.scrollTo("bottom", anchor: .bottom)
+                    .onChange(of: viewModel.messages.count) { oldCount, newCount in
+                        // Only scroll if a new message was added (not removed)
+                        if newCount > oldCount {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                withAnimation(.easeOut(duration: 0.3)) {
+                                    proxy.scrollTo("bottom", anchor: .bottom)
+                                }
+                            }
                         }
                     }
                 }
@@ -114,6 +119,7 @@ struct PulsingStatusView: View {
         .onAppear {
             isPulsing = true
         }
+        .drawingGroup() // Optimize rendering
     }
 }
 

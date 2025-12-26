@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { ChatMessage } from '../types';
-import { sendMessageToPortal } from '../services/geminiService';
+import { sendMessageToPortal } from '../services/claudeService';
 import ProjectCard from './ProjectCard';
 
 const STORAGE_HISTORY_PREFIX = 'portal_history_';

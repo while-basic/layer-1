@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Markdown styles */
+.prose {
+  @apply text-white/80 leading-relaxed;
+}
+
+.prose h1 {
+  @apply text-white text-2xl font-bold mt-6 mb-4;
+}
+
+.prose h2 {
+  @apply text-white text-xl font-semibold mt-5 mb-3;
+}
+
+.prose h3 {
+  @apply text-white/90 text-lg font-medium mt-4 mb-2;
+}
+
+.prose p {
+  @apply mb-4;
+}
+
+.prose code {
+  @apply bg-white/10 px-1.5 py-0.5 rounded text-sm font-mono text-white/90;
+}
+
+.prose pre {
+  @apply bg-white/5 p-4 rounded-lg overflow-x-auto my-4;
+}
+
+.prose ul,
+.prose ol {
+  @apply ml-6 mb-4;
+}
+
+.prose li {
+  @apply mb-2;
+}
+
+.prose a {
+  @apply text-white underline hover:text-white/70 transition-colors;
+}
+
+.prose blockquote {
+  @apply border-l-2 border-white/20 pl-4 italic text-white/60 my-4;
+}

@@ -1,28 +1,49 @@
 {
-  "name": "christopher-celaya-portal",
+  "name": "layer-1-web",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "ingest": "tsx scripts/ingest-knowledgebase.ts"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "ingest": "tsx scripts/ingest-all.ts",
+    "build-graph": "tsx scripts/build-graph.ts",
+    "test-search": "tsx scripts/test-search.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",
-    "chromadb": "^3.2.0",
-    "openai": "^6.15.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "@neondatabase/serverless": "^0.10.0",
+    "@upstash/redis": "^1.34.0",
+    "ai": "^3.4.33",
+    "cohere-ai": "^7.14.0",
+    "gray-matter": "^4.0.3",
+    "neo4j-driver": "^5.26.0",
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
     "react-markdown": "^9.0.0",
-    "uuid": "^13.0.0"
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.4",
+    "uuid": "^10.0.0",
+    "voyageai": "^0.0.3",
+    "weaviate-ts-client": "^2.2.0",
+    "zod": "^3.23.0",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
-    "@vitejs/plugin-react": "^5.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/uuid": "^10.0.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.0",
     "tsx": "^4.21.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "typescript": "~5.8.2"
   }
 }

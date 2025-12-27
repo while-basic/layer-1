@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { SYSTEM_PROMPT } from "../constants";
 import CLAUDE_FUNCTIONS from "../knowledgebase/claude_functions.json";
+import { getSemanticSearch } from "./semanticSearchService";
 
 /**
  * Sends a message to the Christopher Celaya Portal using Claude AI
@@ -43,6 +44,36 @@ The mirror is extended. Reflect with awareness of his broader intellectual archi
       content: h.parts.map(p => p.text).join('\n')
     }));
 
+    // Perform semantic search to get relevant context
+    let contextualMessage = message;
+    try {
+      const semanticSearch = getSemanticSearch();
+      const context = await semanticSearch.searchAndFormat(message, {
+        topK: 6,
+        minScore: 0.3
+      });
+
+      if (context.metadata.totalChunks > 0) {
+        // Augment the message with retrieved context
+        contextualMessage = `
+[KNOWLEDGE BASE CONTEXT]
+Retrieved ${context.metadata.totalChunks} relevant chunks from ${context.metadata.uniqueSources} sources:
+
+${context.text}
+
+---
+
+[USER QUERY]
+${message}
+
+Please use the knowledge base context above to inform your response. Cite sources when relevant.
+        `.trim();
+      }
+    } catch (searchError) {
+      console.warn('Semantic search failed, proceeding without context:', searchError);
+      // Continue with original message if search fails
+    }
+
     // Convert function definitions to Anthropic tools format
     const tools = CLAUDE_FUNCTIONS.functions.map(fn => ({
       name: fn.name,
@@ -57,7 +88,7 @@ The mirror is extended. Reflect with awareness of his broader intellectual archi
       tools,
       messages: [
         ...claudeMessages,
-        { role: 'user', content: message }
+        { role: 'user', content: contextualMessage }
       ]
     });
 
